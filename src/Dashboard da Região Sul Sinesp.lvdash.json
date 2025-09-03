@@ -1,0 +1,1093 @@
+{
+  "datasets": [
+    {
+      "name": "f94410c3",
+      "displayName": "Total de vítimas",
+      "queryLines": [
+        "SELECT SUM(vitimas) AS vitimas_total\r\n",
+        "FROM sinesp.gold.view_sul_uf_vitimas;\r\n"
+      ]
+    },
+    {
+      "name": "a19f3c86",
+      "displayName": "Total de ocorrências",
+      "queryLines": [
+        "SELECT SUM(ocorrencias) AS ocorrencias_total\r\n",
+        "FROM sinesp.gold.view_sul_uf_ocorrencias;\r\n"
+      ]
+    },
+    {
+      "name": "eac6385f",
+      "displayName": "Município com mais vítimas",
+      "queryLines": [
+        "SELECT\r\n",
+        "  municipio,\r\n",
+        "  uf_sigla,\r\n",
+        "  SUM(vitimas) AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_municipios_vitimas\r\n",
+        "GROUP BY municipio, uf_sigla\r\n",
+        "ORDER BY vitimas DESC\r\n",
+        "LIMIT 1;\r\n"
+      ]
+    },
+    {
+      "name": "2afd5eae",
+      "displayName": "Ano mais violento por vítimas",
+      "queryLines": [
+        "SELECT\r\n",
+        "  ano,\r\n",
+        "  SUM(vitimas) AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_uf_vitimas\r\n",
+        "GROUP BY ano\r\n",
+        "ORDER BY vitimas DESC\r\n",
+        "LIMIT 1;\r\n"
+      ]
+    },
+    {
+      "name": "bee29881",
+      "displayName": "Vítimas por UF",
+      "queryLines": [
+        "SELECT\r\n",
+        "  uf_sigla,\r\n",
+        "  SUM(vitimas) AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_uf_vitimas\r\n",
+        "GROUP BY uf_sigla\r\n",
+        "ORDER BY vitimas DESC;\r\n"
+      ]
+    },
+    {
+      "name": "b9259bf7",
+      "displayName": "Evolução Mensal de vítimas por UF",
+      "queryLines": [
+        "SELECT\r\n",
+        "  make_date(ano, mes, 1) AS dt,\r\n",
+        "  uf_sigla,\r\n",
+        "  SUM(vitimas)          AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_uf_vitimas\r\n",
+        "GROUP BY make_date(ano, mes, 1), uf_sigla\r\n",
+        "ORDER BY dt, uf_sigla;\r\n"
+      ]
+    },
+    {
+      "name": "d6e02622",
+      "displayName": "Tipo de crime × UF por vítimas",
+      "queryLines": [
+        "SELECT\r\n",
+        "  tipo_crime,\r\n",
+        "  uf_sigla,\r\n",
+        "  SUM(vitimas) AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_uf_vitimas\r\n",
+        "GROUP BY tipo_crime, uf_sigla;\r\n"
+      ]
+    },
+    {
+      "name": "3022286b",
+      "displayName": "Top 15 municípios com mais vítimas",
+      "queryLines": [
+        "SELECT\r\n",
+        "  municipio,\r\n",
+        "  uf_sigla,\r\n",
+        "  SUM(vitimas) AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_municipios_vitimas\r\n",
+        "GROUP BY municipio, uf_sigla\r\n",
+        "ORDER BY vitimas DESC\r\n",
+        "LIMIT 15;\r\n"
+      ]
+    },
+    {
+      "name": "a2c99849",
+      "displayName": "Série temporal de 15 municípios",
+      "queryLines": [
+        "WITH top_mun AS (\r\n",
+        "  SELECT municipio, uf_sigla\r\n",
+        "  FROM (\r\n",
+        "    SELECT\r\n",
+        "      municipio,\r\n",
+        "      uf_sigla,\r\n",
+        "      SUM(vitimas) AS vitimas,\r\n",
+        "      DENSE_RANK() OVER (ORDER BY SUM(vitimas) DESC) AS rk\r\n",
+        "    FROM sinesp.gold.view_sul_municipios_vitimas\r\n",
+        "    GROUP BY municipio, uf_sigla\r\n",
+        "  ) sub\r\n",
+        "  WHERE rk <= 15\r\n",
+        ")\r\n",
+        "\r\n",
+        "SELECT\r\n",
+        "  m.municipio,\r\n",
+        "  m.uf_sigla,\r\n",
+        "  make_date(m.ano, m.mes, 1) AS dt,\r\n",
+        "  SUM(m.vitimas)             AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_municipios_vitimas m\r\n",
+        "JOIN top_mun t\r\n",
+        "  ON m.municipio = t.municipio\r\n",
+        " AND m.uf_sigla = t.uf_sigla\r\n",
+        "GROUP BY m.municipio, m.uf_sigla, make_date(m.ano, m.mes, 1)\r\n",
+        "ORDER BY m.municipio, dt;\r\n"
+      ]
+    },
+    {
+      "name": "7493f181",
+      "displayName": "Distribuição de vítimas por sexo",
+      "queryLines": [
+        "SELECT\r\n",
+        "  sexo_vitima,\r\n",
+        "  SUM(vitimas) AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_uf_vitimas\r\n",
+        "GROUP BY sexo_vitima\r\n",
+        "ORDER BY vitimas DESC;\r\n"
+      ]
+    },
+    {
+      "name": "5aab10c3",
+      "displayName": "Ranking de tipos de crime por ocorrências",
+      "queryLines": [
+        "SELECT\r\n",
+        "  tipo_crime,\r\n",
+        "  SUM(ocorrencias) AS ocorrencias\r\n",
+        "FROM sinesp.gold.view_sul_uf_ocorrencias\r\n",
+        "GROUP BY tipo_crime\r\n",
+        "ORDER BY ocorrencias DESC;\r\n"
+      ]
+    },
+    {
+      "name": "51c00f63",
+      "displayName": "Vítimas por UF e sexo",
+      "queryLines": [
+        "SELECT\r\n",
+        "  uf_sigla,\r\n",
+        "  sexo_vitima,\r\n",
+        "  SUM(vitimas) AS vitimas\r\n",
+        "FROM sinesp.gold.view_sul_uf_vitimas\r\n",
+        "GROUP BY uf_sigla, sexo_vitima\r\n",
+        "ORDER BY uf_sigla, vitimas DESC;\r\n"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "54ae2f10",
+      "displayName": "Sul",
+      "layout": [
+        {
+          "widget": {
+            "name": "8b408f21",
+            "multilineTextboxSpec": {
+              "lines": [
+                "![Image](https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/sinesp-1/sinesp/@@govbr.institucional.banner/f9679520-855b-4690-961d-259b7eec9d3c/@@images/ebd6fb2b-49b9-4f0e-b116-117a86789802.jpeg)"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "7e8de4ca",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f94410c3",
+                  "fields": [
+                    {
+                      "name": "vitimas_total",
+                      "expression": "`vitimas_total`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`vitimas_total` IN (`vitimas_total`) OR TRUE"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "vitimas_total",
+                  "displayName": "vitimas_total"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total de ocorrências"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "1a833573",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a19f3c86",
+                  "fields": [
+                    {
+                      "name": "ocorrencias_total",
+                      "expression": "`ocorrencias_total`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`ocorrencias_total` IN (`ocorrencias_total`) OR TRUE"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "ocorrencias_total",
+                  "displayName": "ocorrencias_total"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total de vítimas"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "2c0247e9",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "eac6385f",
+                  "fields": [
+                    {
+                      "name": "vitimas",
+                      "expression": "`vitimas`"
+                    },
+                    {
+                      "name": "municipio",
+                      "expression": "`municipio`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "municipio",
+                  "displayName": "municipio"
+                },
+                "target": {
+                  "fieldName": "vitimas",
+                  "displayName": "vitimas"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Município com mais vítimas"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 2,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "017c361b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2afd5eae",
+                  "fields": [
+                    {
+                      "name": "vitimas",
+                      "expression": "`vitimas`"
+                    },
+                    {
+                      "name": "ano",
+                      "expression": "`ano`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "ano",
+                  "displayName": "ano"
+                },
+                "target": {
+                  "fieldName": "vitimas",
+                  "displayName": "vitimas"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Ano mais violento da Região"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "f96b18f3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "bee29881",
+                  "fields": [
+                    {
+                      "name": "uf_sigla",
+                      "expression": "`uf_sigla`"
+                    },
+                    {
+                      "name": "sum(vitimas)",
+                      "expression": "SUM(`vitimas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "uf_sigla",
+                  "axis": {
+                    "hideLabels": true,
+                    "hideTitle": false,
+                    "title": "Estados"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "Estados"
+                },
+                "y": {
+                  "fieldName": "sum(vitimas)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "hideTitle": false,
+                    "hideLabels": false,
+                    "title": "Numero de Vitimas"
+                  },
+                  "displayName": "Numero de Vitimas"
+                },
+                "color": {
+                  "fieldName": "uf_sigla",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "legend": {
+                    "position": "right",
+                    "title": "Estado"
+                  },
+                  "displayName": "Estado"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Vítimas por UF",
+                "showDescription": true,
+                "description": "Para filtragem, clique em algum dos estados no canto direito"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "a8939bc1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "b9259bf7",
+                  "fields": [
+                    {
+                      "name": "uf_sigla",
+                      "expression": "`uf_sigla`"
+                    },
+                    {
+                      "name": "monthly(dt)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `dt`)"
+                    },
+                    {
+                      "name": "sum(vitimas)",
+                      "expression": "SUM(`vitimas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(dt)",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "hideLabels": false,
+                    "hideTitle": true
+                  },
+                  "displayName": "dt"
+                },
+                "y": {
+                  "fieldName": "sum(vitimas)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Numero de Vitimas"
+                  },
+                  "displayName": "Numero de Vitimas"
+                },
+                "color": {
+                  "fieldName": "uf_sigla",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "legend": {
+                    "hide": false,
+                    "hideTitle": false,
+                    "title": "Estado",
+                    "position": "right"
+                  },
+                  "displayName": "Estado"
+                },
+                "label": {
+                  "show": false
+                },
+                "extra": [
+                  {
+                    "fieldName": "uf_sigla",
+                    "displayName": "uf_sigla"
+                  }
+                ]
+              },
+              "frame": {
+                "showDescription": true,
+                "description": "Para filtragem, clique em algum dos estados no canto direito",
+                "showTitle": true,
+                "title": "Evolução mensal de vítimas por Estado"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "970335d2",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "d6e02622",
+                  "fields": [
+                    {
+                      "name": "tipo_crime",
+                      "expression": "`tipo_crime`"
+                    },
+                    {
+                      "name": "uf_sigla",
+                      "expression": "`uf_sigla`"
+                    },
+                    {
+                      "name": "sum(vitimas)",
+                      "expression": "SUM(`vitimas`)"
+                    }
+                  ],
+                  "cubeGroupingSets": {
+                    "sets": [
+                      {
+                        "fieldNames": [
+                          "tipo_crime"
+                        ]
+                      },
+                      {
+                        "fieldNames": [
+                          "uf_sigla"
+                        ]
+                      }
+                    ]
+                  },
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "ASC",
+                      "expression": "`tipo_crime`"
+                    },
+                    {
+                      "direction": "ASC",
+                      "expression": "`uf_sigla`"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pivot",
+              "encodings": {
+                "rows": [
+                  {
+                    "fieldName": "tipo_crime",
+                    "headerWidth": 220,
+                    "displayName": "Crime Cometido"
+                  }
+                ],
+                "columns": [
+                  {
+                    "fieldName": "uf_sigla",
+                    "displayTotal": false,
+                    "displayName": "Estado"
+                  }
+                ],
+                "cell": {
+                  "type": "multi-cell",
+                  "fields": [
+                    {
+                      "fieldName": "sum(vitimas)",
+                      "cellType": "text",
+                      "displayName": "Numero de Vitimas"
+                    }
+                  ]
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Tipo de crime × UF por vítimas"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 34,
+            "width": 3,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "7da4891e",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3022286b",
+                  "fields": [
+                    {
+                      "name": "municipio",
+                      "expression": "`municipio`"
+                    },
+                    {
+                      "name": "sum(vitimas)",
+                      "expression": "SUM(`vitimas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "municipio",
+                  "axis": {
+                    "labelAngle": 0,
+                    "hideTitle": false,
+                    "hideLabels": true,
+                    "title": "Municipio"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "Municipio"
+                },
+                "y": {
+                  "fieldName": "sum(vitimas)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Numero de Vitimas"
+                  },
+                  "displayName": "Numero de Vitimas"
+                },
+                "color": {
+                  "fieldName": "municipio",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "Alvorada",
+                        "Canoas",
+                        "Caxias Do Sul",
+                        "Colombo",
+                        "Curitiba",
+                        "Florianópolis",
+                        "Foz Do Iguaçu",
+                        "Gravataí",
+                        "Joinville",
+                        "Londrina",
+                        "Paranaguá",
+                        "Ponta Grossa",
+                        "Porto Alegre",
+                        "São José Dos Pinhais",
+                        "Viamão"
+                      ]
+                    },
+                    "mappings": [
+                      {
+                        "value": "Porto Alegre",
+                        "color": "#BD0000"
+                      }
+                    ]
+                  },
+                  "legend": {
+                    "title": "Municipio",
+                    "position": "right"
+                  },
+                  "displayName": "Municipio"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Os 15 municípios com mais vítimas",
+                "showDescription": true,
+                "description": "Para filtragem, clique em algum dos municípios no canto direito "
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 16,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "041b19dc",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a2c99849",
+                  "fields": [
+                    {
+                      "name": "municipio",
+                      "expression": "`municipio`"
+                    },
+                    {
+                      "name": "monthly(dt)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `dt`)"
+                    },
+                    {
+                      "name": "sum(vitimas)",
+                      "expression": "SUM(`vitimas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(dt)",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "hideLabels": false,
+                    "hideTitle": true
+                  },
+                  "displayName": "dt"
+                },
+                "y": {
+                  "fieldName": "sum(vitimas)",
+                  "scale": {
+                    "type": "quantitative",
+                    "reverse": false
+                  },
+                  "axis": {
+                    "title": "Numero de Vitimas"
+                  },
+                  "displayName": "Numero de Vitimas"
+                },
+                "color": {
+                  "fieldName": "municipio",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "legend": {
+                    "hide": false,
+                    "hideTitle": false,
+                    "title": "Municipio",
+                    "position": "right"
+                  },
+                  "displayName": "Municipio"
+                },
+                "label": {
+                  "show": false
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Evolução mensal de vítimas por municípios ",
+                "description": "Para filtragem, clique em algum dos municípios no canto direito "
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 22,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "bfd8c105",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7493f181",
+                  "fields": [
+                    {
+                      "name": "sum(vitimas)",
+                      "expression": "SUM(`vitimas`)"
+                    },
+                    {
+                      "name": "sexo_vitima",
+                      "expression": "`sexo_vitima`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(vitimas)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Numero de Vitimas"
+                  },
+                  "displayName": "Numero de Vitimas"
+                },
+                "color": {
+                  "fieldName": "sexo_vitima",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "legend": {
+                    "title": "Sexo da Vitima",
+                    "position": "right"
+                  },
+                  "displayName": "Sexo da Vitima"
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Distribuição de vítimas por sexo",
+                "showDescription": true,
+                "description": "Para filtragem, clique em algum ds sexos no canto direito "
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 28,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "81c1b320",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5aab10c3",
+                  "fields": [
+                    {
+                      "name": "tipo_crime",
+                      "expression": "`tipo_crime`"
+                    },
+                    {
+                      "name": "sum(ocorrencias)",
+                      "expression": "SUM(`ocorrencias`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "tipo_crime",
+                  "axis": {
+                    "labelAngle": 0,
+                    "title": "Crime Cometido",
+                    "hideTitle": false,
+                    "hideLabels": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "Crime Cometido"
+                },
+                "y": {
+                  "fieldName": "sum(ocorrencias)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Numero de Ocorrencias "
+                  },
+                  "displayName": "Numero de Ocorrencias "
+                },
+                "color": {
+                  "fieldName": "tipo_crime",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "Furto de veículo",
+                        "Roubo de veículo",
+                        "Estupro",
+                        "Tentativa de homicídio",
+                        "Homicídio doloso",
+                        "Roubo de carga",
+                        "Roubo seguido de morte (latrocínio)",
+                        "Lesão corporal seguida de morte",
+                        "Roubo a instituição financeira"
+                      ]
+                    }
+                  },
+                  "legend": {
+                    "position": "right",
+                    "title": "Crime Cometido"
+                  },
+                  "displayName": "Crime Cometido"
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Ranking de tipos de crime por ocorrências",
+                "description": "Para filtragem, clique em alguma das ocorrências no canto direito "
+              },
+              "mark": {
+                "layout": "stack"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 28,
+            "width": 4,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "f52e1e1c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "51c00f63",
+                  "fields": [
+                    {
+                      "name": "sexo_vitima",
+                      "expression": "`sexo_vitima`"
+                    },
+                    {
+                      "name": "uf_sigla",
+                      "expression": "`uf_sigla`"
+                    },
+                    {
+                      "name": "sum(vitimas)",
+                      "expression": "SUM(`vitimas`)"
+                    }
+                  ],
+                  "cubeGroupingSets": {
+                    "sets": [
+                      {
+                        "fieldNames": [
+                          "sexo_vitima"
+                        ]
+                      },
+                      {
+                        "fieldNames": [
+                          "uf_sigla"
+                        ]
+                      }
+                    ]
+                  },
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "ASC",
+                      "expression": "`sexo_vitima`"
+                    },
+                    {
+                      "direction": "ASC",
+                      "expression": "`uf_sigla`"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pivot",
+              "encodings": {
+                "rows": [
+                  {
+                    "fieldName": "sexo_vitima",
+                    "headerWidth": 220,
+                    "displayName": "Sexo da Vitima"
+                  }
+                ],
+                "columns": [
+                  {
+                    "fieldName": "uf_sigla",
+                    "displayName": "Estado"
+                  }
+                ],
+                "cell": {
+                  "type": "multi-cell",
+                  "fields": [
+                    {
+                      "fieldName": "sum(vitimas)",
+                      "cellType": "text",
+                      "displayName": "Numero de Vitimas"
+                    }
+                  ]
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Vítimas por UF e sexo"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 34,
+            "width": 3,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "7bf94f37",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    }
+  }
+}

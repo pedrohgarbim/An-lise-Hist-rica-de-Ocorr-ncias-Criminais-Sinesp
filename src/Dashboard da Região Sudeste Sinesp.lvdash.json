@@ -401,7 +401,7 @@
                   "axis": {
                     "hideLabels": true,
                     "hideTitle": false,
-                    "title": "Estados"
+                    "title": "UF"
                   },
                   "scale": {
                     "type": "categorical",
@@ -409,7 +409,7 @@
                       "by": "y-reversed"
                     }
                   },
-                  "displayName": "Estados"
+                  "displayName": "UF"
                 },
                 "y": {
                   "fieldName": "sum(vitimas)",
@@ -426,13 +426,22 @@
                 "color": {
                   "fieldName": "uf_sigla",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "RJ",
+                        "MG",
+                        "SP",
+                        "ES"
+                      ]
+                    }
                   },
                   "legend": {
                     "position": "right",
-                    "title": "Estado"
+                    "title": "UF"
                   },
-                  "displayName": "Estado"
+                  "displayName": "UF"
                 }
               },
               "frame": {
@@ -504,15 +513,24 @@
                 "color": {
                   "fieldName": "uf_sigla",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "RJ",
+                        "MG",
+                        "SP",
+                        "ES"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
                     "hideTitle": false,
-                    "title": "Estado",
+                    "title": "UF",
                     "position": "right"
                   },
-                  "displayName": "Estado"
+                  "displayName": "UF"
                 },
                 "label": {
                   "show": false
@@ -528,7 +546,7 @@
                 "showDescription": true,
                 "description": "Para filtragem, clique em algum dos estados no canto direito",
                 "showTitle": true,
-                "title": "Evolução mensal de vítimas por Estado"
+                "title": "Evolução mensal de vítimas por UF"
               }
             }
           },
@@ -690,21 +708,21 @@
                     "sort": {
                       "by": "custom-order",
                       "orderedValues": [
-                        "Alvorada",
-                        "Canoas",
-                        "Caxias Do Sul",
-                        "Colombo",
-                        "Curitiba",
-                        "Florianópolis",
-                        "Foz Do Iguaçu",
-                        "Gravataí",
-                        "Joinville",
-                        "Londrina",
-                        "Paranaguá",
-                        "Ponta Grossa",
-                        "Porto Alegre",
-                        "São José Dos Pinhais",
-                        "Viamão"
+                        "Rio De Janeiro",
+                        "São Paulo",
+                        "Belo Horizonte",
+                        "Nova Iguaçu",
+                        "Duque De Caxias",
+                        "São Gonçalo",
+                        "Belford Roxo",
+                        "Serra",
+                        "Campos Dos Goytacazes",
+                        "Cariacica",
+                        "Vila Velha",
+                        "Campinas",
+                        "Contagem",
+                        "Macaé",
+                        "São João De Meriti"
                       ]
                     },
                     "mappings": [
@@ -791,7 +809,27 @@
                 "color": {
                   "fieldName": "municipio",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "Rio De Janeiro",
+                        "São Paulo",
+                        "Belo Horizonte",
+                        "Nova Iguaçu",
+                        "Duque De Caxias",
+                        "São Gonçalo",
+                        "Belford Roxo",
+                        "Serra",
+                        "Campos Dos Goytacazes",
+                        "Cariacica",
+                        "Vila Velha",
+                        "Campinas",
+                        "Contagem",
+                        "Macaé",
+                        "São João De Meriti"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
@@ -808,7 +846,7 @@
               "frame": {
                 "showTitle": true,
                 "showDescription": true,
-                "title": "Evolução mensal de vítimas por municípios ",
+                "title": "Evolução mensal dos 15 municípios com mais vítimas",
                 "description": "Para filtragem, clique em algum dos municípios no canto direito "
               }
             }
@@ -948,12 +986,12 @@
                         "Furto de veículo",
                         "Roubo de veículo",
                         "Estupro",
+                        "Roubo de carga",
                         "Tentativa de homicídio",
                         "Homicídio doloso",
-                        "Roubo de carga",
                         "Roubo seguido de morte (latrocínio)",
-                        "Lesão corporal seguida de morte",
-                        "Roubo a instituição financeira"
+                        "Roubo a instituição financeira",
+                        "Lesão corporal seguida de morte"
                       ]
                     }
                   },

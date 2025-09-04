@@ -401,7 +401,7 @@
                   "axis": {
                     "hideLabels": true,
                     "hideTitle": false,
-                    "title": "Estados"
+                    "title": "UF"
                   },
                   "scale": {
                     "type": "categorical",
@@ -409,7 +409,7 @@
                       "by": "y-reversed"
                     }
                   },
-                  "displayName": "Estados"
+                  "displayName": "UF"
                 },
                 "y": {
                   "fieldName": "sum(vitimas)",
@@ -430,9 +430,9 @@
                   },
                   "legend": {
                     "position": "right",
-                    "title": "Estado"
+                    "title": "UF"
                   },
-                  "displayName": "Estado"
+                  "displayName": "UF"
                 }
               },
               "frame": {
@@ -504,15 +504,23 @@
                 "color": {
                   "fieldName": "uf_sigla",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "PR",
+                        "RS",
+                        "SC"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
                     "hideTitle": false,
-                    "title": "Estado",
+                    "title": "UF",
                     "position": "right"
                   },
-                  "displayName": "Estado"
+                  "displayName": "UF"
                 },
                 "label": {
                   "show": false
@@ -528,7 +536,7 @@
                 "showDescription": true,
                 "description": "Para filtragem, clique em algum dos estados no canto direito",
                 "showTitle": true,
-                "title": "Evolução mensal de vítimas por Estado"
+                "title": "Evolução mensal de vítimas por UF"
               }
             }
           },
@@ -690,21 +698,21 @@
                     "sort": {
                       "by": "custom-order",
                       "orderedValues": [
-                        "Alvorada",
-                        "Canoas",
-                        "Caxias Do Sul",
-                        "Colombo",
-                        "Curitiba",
-                        "Florianópolis",
-                        "Foz Do Iguaçu",
-                        "Gravataí",
-                        "Joinville",
-                        "Londrina",
-                        "Paranaguá",
-                        "Ponta Grossa",
                         "Porto Alegre",
+                        "Curitiba",
+                        "Alvorada",
+                        "Viamão",
+                        "Caxias Do Sul",
+                        "Foz Do Iguaçu",
+                        "Canoas",
+                        "Paranaguá",
+                        "Joinville",
                         "São José Dos Pinhais",
-                        "Viamão"
+                        "Florianópolis",
+                        "Ponta Grossa",
+                        "Londrina",
+                        "Colombo",
+                        "Gravataí"
                       ]
                     },
                     "mappings": [
@@ -791,7 +799,27 @@
                 "color": {
                   "fieldName": "municipio",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "Porto Alegre",
+                        "Curitiba",
+                        "Alvorada",
+                        "Viamão",
+                        "Caxias Do Sul",
+                        "Foz Do Iguaçu",
+                        "Canoas",
+                        "Paranaguá",
+                        "Joinville",
+                        "São José Dos Pinhais",
+                        "Florianópolis",
+                        "Ponta Grossa",
+                        "Londrina",
+                        "Colombo",
+                        "Gravataí"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
@@ -808,7 +836,7 @@
               "frame": {
                 "showTitle": true,
                 "showDescription": true,
-                "title": "Evolução mensal de vítimas por municípios ",
+                "title": "Evolução mensal dos 15 municípios com mais vítimas",
                 "description": "Para filtragem, clique em algum dos municípios no canto direito "
               }
             }

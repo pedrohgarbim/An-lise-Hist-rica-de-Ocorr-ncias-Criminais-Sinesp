@@ -401,7 +401,7 @@
                   "axis": {
                     "hideLabels": true,
                     "hideTitle": false,
-                    "title": "Estados"
+                    "title": "UF"
                   },
                   "scale": {
                     "type": "categorical",
@@ -409,7 +409,7 @@
                       "by": "y-reversed"
                     }
                   },
-                  "displayName": "Estados"
+                  "displayName": "UF"
                 },
                 "y": {
                   "fieldName": "sum(vitimas)",
@@ -444,9 +444,9 @@
                   },
                   "legend": {
                     "position": "right",
-                    "title": "Estado"
+                    "title": "UF"
                   },
-                  "displayName": "Estado"
+                  "displayName": "UF"
                 }
               },
               "frame": {
@@ -537,10 +537,10 @@
                   "legend": {
                     "hide": false,
                     "hideTitle": false,
-                    "title": "Estado",
+                    "title": "UF",
                     "position": "right"
                   },
-                  "displayName": "Estado"
+                  "displayName": "UF"
                 },
                 "label": {
                   "show": false
@@ -556,7 +556,7 @@
                 "showDescription": true,
                 "description": "Para filtragem, clique em algum dos estados no canto direito",
                 "showTitle": true,
-                "title": "Evolução mensal de vítimas por Estado"
+                "title": "Evolução mensal de vítimas por UF"
               }
             }
           },
@@ -856,7 +856,7 @@
               "frame": {
                 "showTitle": true,
                 "showDescription": true,
-                "title": "Evolução mensal de vítimas por municípios ",
+                "title": "Evolução mensal dos 15 municípios com mais vítimas",
                 "description": "Para filtragem, clique em algum dos municípios no canto direito "
               }
             }

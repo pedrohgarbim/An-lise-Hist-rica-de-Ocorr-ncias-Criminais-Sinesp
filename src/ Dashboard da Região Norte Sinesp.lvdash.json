@@ -426,7 +426,19 @@
                 "color": {
                   "fieldName": "uf_sigla",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "PA",
+                        "AM",
+                        "RO",
+                        "TO",
+                        "AP",
+                        "AC",
+                        "RR"
+                      ]
+                    }
                   },
                   "legend": {
                     "position": "right",
@@ -437,7 +449,7 @@
               },
               "frame": {
                 "showTitle": true,
-                "title": "Vítimas por UF",
+                "title": "Vítimas por Estado",
                 "showDescription": true,
                 "description": "Para filtragem, clique em algum dos estados no canto direito"
               }
@@ -504,7 +516,19 @@
                 "color": {
                   "fieldName": "uf_sigla",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "PA",
+                        "AM",
+                        "RO",
+                        "TO",
+                        "AP",
+                        "AC",
+                        "RR"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
@@ -690,21 +714,21 @@
                     "sort": {
                       "by": "custom-order",
                       "orderedValues": [
-                        "Alvorada",
-                        "Canoas",
-                        "Caxias Do Sul",
-                        "Colombo",
-                        "Curitiba",
-                        "Florianópolis",
-                        "Foz Do Iguaçu",
-                        "Gravataí",
-                        "Joinville",
-                        "Londrina",
-                        "Paranaguá",
-                        "Ponta Grossa",
-                        "Porto Alegre",
-                        "São José Dos Pinhais",
-                        "Viamão"
+                        "Manaus",
+                        "Belém",
+                        "Ananindeua",
+                        "Macapá",
+                        "Rio Branco",
+                        "Porto Velho",
+                        "Marabá",
+                        "Boa Vista",
+                        "Parauapebas",
+                        "Altamira",
+                        "Palmas",
+                        "Castanhal",
+                        "Itaituba",
+                        "Araguaína",
+                        "Redenção"
                       ]
                     },
                     "mappings": [
@@ -791,7 +815,27 @@
                 "color": {
                   "fieldName": "municipio",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "Manaus",
+                        "Belém",
+                        "Ananindeua",
+                        "Macapá",
+                        "Rio Branco",
+                        "Porto Velho",
+                        "Marabá",
+                        "Boa Vista",
+                        "Parauapebas",
+                        "Altamira",
+                        "Palmas",
+                        "Castanhal",
+                        "Itaituba",
+                        "Araguaína",
+                        "Redenção"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
@@ -948,10 +992,10 @@
                         "Furto de veículo",
                         "Roubo de veículo",
                         "Estupro",
-                        "Tentativa de homicídio",
                         "Homicídio doloso",
-                        "Roubo de carga",
+                        "Tentativa de homicídio",
                         "Roubo seguido de morte (latrocínio)",
+                        "Roubo de carga",
                         "Lesão corporal seguida de morte",
                         "Roubo a instituição financeira"
                       ]

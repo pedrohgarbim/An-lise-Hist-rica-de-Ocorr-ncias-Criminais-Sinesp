@@ -426,7 +426,16 @@
                 "color": {
                   "fieldName": "uf_sigla",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "GO",
+                        "MT",
+                        "MS",
+                        "DF"
+                      ]
+                    }
                   },
                   "legend": {
                     "position": "right",
@@ -504,7 +513,16 @@
                 "color": {
                   "fieldName": "uf_sigla",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "GO",
+                        "MT",
+                        "MS",
+                        "DF"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
@@ -690,21 +708,21 @@
                     "sort": {
                       "by": "custom-order",
                       "orderedValues": [
-                        "Alvorada",
-                        "Canoas",
-                        "Caxias Do Sul",
-                        "Colombo",
-                        "Curitiba",
-                        "Florianópolis",
-                        "Foz Do Iguaçu",
-                        "Gravataí",
-                        "Joinville",
-                        "Londrina",
-                        "Paranaguá",
-                        "Ponta Grossa",
-                        "Porto Alegre",
-                        "São José Dos Pinhais",
-                        "Viamão"
+                        "Goiânia",
+                        "Aparecida De Goiânia",
+                        "Campo Grande",
+                        "Anápolis",
+                        "Cuiabá",
+                        "Ceilândia",
+                        "Luziânia",
+                        "Valparaíso De Goiás",
+                        "Várzea Grande",
+                        "Águas Lindas De Goiás",
+                        "Rondonópolis",
+                        "Ponta Porã",
+                        "Sinop",
+                        "Trindade",
+                        "Dourados"
                       ]
                     },
                     "mappings": [
@@ -791,7 +809,27 @@
                 "color": {
                   "fieldName": "municipio",
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "Goiânia",
+                        "Aparecida De Goiânia",
+                        "Campo Grande",
+                        "Anápolis",
+                        "Cuiabá",
+                        "Ceilândia",
+                        "Luziânia",
+                        "Valparaíso De Goiás",
+                        "Várzea Grande",
+                        "Águas Lindas De Goiás",
+                        "Rondonópolis",
+                        "Ponta Porã",
+                        "Sinop",
+                        "Trindade",
+                        "Dourados"
+                      ]
+                    }
                   },
                   "legend": {
                     "hide": false,
@@ -808,7 +846,7 @@
               "frame": {
                 "showTitle": true,
                 "showDescription": true,
-                "title": "Evolução mensal de vítimas por municípios ",
+                "title": "Evolução mensal dos 15 municípios com mais vítimas",
                 "description": "Para filtragem, clique em algum dos municípios no canto direito "
               }
             }
@@ -947,8 +985,8 @@
                       "orderedValues": [
                         "Furto de veículo",
                         "Roubo de veículo",
-                        "Estupro",
                         "Tentativa de homicídio",
+                        "Estupro",
                         "Homicídio doloso",
                         "Roubo de carga",
                         "Roubo seguido de morte (latrocínio)",

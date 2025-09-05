@@ -90,4 +90,60 @@ O **Dicionário de Dados por Município** complementa o dicionário por Unidade 
 ## ✅ Importância
 Esse dicionário é essencial para análises **granulares e comparativas entre municípios**, permitindo observar padrões locais de criminalidade, identificar áreas críticas e orientar políticas públicas de segurança com maior precisão.
 
+# 📊 Arquivos XLSX Brutos
+
+Além dos dicionários de dados (UF e Municípios), o projeto utiliza como **fonte primária** os arquivos **XLSX brutos** disponibilizados pelo **Sinesp (Sistema Nacional de Segurança Pública)**. Esses arquivos são a base para todas as transformações realizadas nas camadas **Bronze → Silver → Gold** do pipeline de dados.
+
+---
+
+## 🗂️ Estrutura dos Arquivos
+
+Os arquivos seguem um padrão dividido em **abas (sheets)** por **Unidade da Federação (UF)**, cada uma contendo registros de crimes e vítimas. Entre os principais campos presentes:
+
+- **Cod_IBGE** → Código único de identificação do município.  
+- **Município** → Nome oficial do município.  
+- **Sigla UF** → Abreviação da Unidade Federativa (ex.: AC, SP, RS).  
+- **Região** → Macrorregião correspondente (Norte, Nordeste, Sudeste, Sul, Centro-Oeste).  
+- **Mês/Ano** → Período da ocorrência ou registro.  
+- **Tipo de Crime** → Classificação do crime (ex.: Homicídio Doloso, Estupro, Roubo de Veículo etc.).  
+- **Sexo da Vítima** → Feminino, Masculino ou "Sexo NI" (não informado).  
+- **Ocorrências** → Quantidade de ocorrências registradas para aquele crime no período.  
+- **Vítimas** → Número de pessoas registradas como vítimas.
+
+---
+
+## 🔄 Relação com os Dicionários
+
+Os dicionários de dados (UF e Municípios) funcionam como **guia de interpretação** dos XLSX, garantindo que:
+
+- **Indicadores** (ex.: Homicídio Doloso, Estupro) sejam entendidos de forma padronizada.  
+- **Unidades de medida** (Vítimas, Ocorrências, Taxa/100000) sejam aplicadas corretamente.  
+- **Metodologia** (coleta, atualização, publicação) seja respeitada, assegurando a confiabilidade da análise.  
+
+Assim, os arquivos brutos **não devem ser interpretados isoladamente**: o dicionário garante consistência legal, técnica e metodológica.
+
+---
+
+## ⏱️ Periodicidade e Atualização
+
+- Os dados são **mensais**, com cada linha representando um agregado por UF ou Município.  
+- As planilhas podem conter diferenças de cobertura dependendo do período e da evolução do sistema Sinesp em cada estado.  
+- Atualizações seguem o fluxo descrito no dicionário:
+  - **Coleta mensal**
+  - **Validação** pelas Secretarias Estaduais
+  - **Publicação** no painel oficial até o dia 15 de cada mês
+
+---
+
+## ✅ Importância para o Pipeline
+
+Os **arquivos XLSX brutos** representam a **camada de entrada (Landing → Bronze)** do pipeline.  
+É a partir deles que:
+1. Os dados são **ingeridos e normalizados**.  
+2. Passam por limpeza e padronização (Silver).  
+3. São agregados, enriquecidos e preparados para análises avançadas e dashboards (Gold).
+
+Sem essa base estruturada, não seria possível construir as análises regionais, comparativos e indicadores derivados que alimentam o projeto.
+
+
 

@@ -1,7 +1,5 @@
 <img width="1414" height="2000" alt="phginfogr" src="https://github.com/user-attachments/assets/cc5860d4-2a8b-45b1-92c4-8816b83a84fb" />
 
-## Link dos dados e dicionarios https://dados.gov.br/dados/conjuntos-dados/sistema-nacional-de-estatisticas-de-seguranca-publica
-
 # 📘 Dicionário de Dados – UF
 
 O **Dicionário de Dados por Unidade da Federação (UF)** é um documento oficial que define e padroniza os principais indicadores de criminalidade registrados no Brasil, dentro do sistema **Sinesp Integração**.  
@@ -145,5 +143,80 @@ Os **arquivos XLSX brutos** representam a **camada de entrada (Landing → Bronz
 
 Sem essa base estruturada, não seria possível construir as análises regionais, comparativos e indicadores derivados que alimentam o projeto.
 
+
+# 🥉Camada Bronze (Ingestão & Padronização)
+
+A **Camada Bronze** do projeto SINESP é responsável por **ingerir os arquivos brutos (XLSX)**, baixados do portal [dados.gov.br](https://dados.gov.br/dados/conjuntos-dados/sistema-nacional-de-estatisticas-de-seguranca-publica), e transformá-los em **tabelas Delta padronizadas**, prontas para uso nas próximas camadas (**Silver** e **Gold**).
+
+---
+
+## 🎯 Objetivos da Bronze
+- **Automatizar a ingestão** dos arquivos publicados (UF e Municípios).  
+- **Versionar os binários** (hash SHA256 + data de aquisição).  
+- **Manter um manifesto** com metadados de cada arquivo baixado.  
+- **Padronizar colunas e tipos** para simplificar o consumo posterior.  
+- **Armazenar todos os registros sem perder informação**, mesmo que inconsistentes, aplicando apenas “checks leves”.
+
+---
+
+## 📂 Estrutura dos Diretórios (Landing)
+Os arquivos originais são salvos em um **Volume Unity Catalog**:
+- **sha256** → assinatura única para identificar o binário.
+- **acquired_date** → data em que o arquivo foi adquirido.
+- **manifest.csv** → log com informações de URL, tamanho, hash, ETag, Last-Modified.
+
+---
+## 🛠️ Principais Scripts
+
+### 1. 📥 Download & Landing
+Arquivo: **data**  
+- Descobre URLs via **API CKAN** do Ministério da Justiça.  
+- Faz download com **retry e backoff exponencial**.  
+- Gera hash `sha256` para cada arquivo.  
+- Cria diretório no landing com `acquired_date` + `sha256`.  
+- Registra o arquivo no **manifesto** para auditoria.
+
+### 2. 🏙️ Ingestão de Municípios
+Arquivo: **Ingestao_dos_DadosMunicípio**  
+- Localiza o XLSX mais recente no landing.  
+- Abre as **27 abas** (uma por UF).  
+- Normaliza colunas (`cod_ibge`, `municipio`, `uf`, `regiao`, `mes_ano`, `vitimas`).  
+- Faz parsing de `mes_ano` → `ano`, `mes`, `year_month`.  
+- Aplica checks leves:
+  - `vitimas >= 0`
+  - `uf` consistente
+- Cria tabelas por UF (`sinesp.bronze.DadosMunicipioAC`, etc).  
+- Cria tabela unificada (`sinesp.bronze.municipios_raw_row`), particionada por `uf`, `ano`, `mes`.
+
+### 3. 🏛️ Ingestão por UF
+Arquivo: **Ingestao_dos_DadosUF**  
+- Localiza XLSX mais recente da pasta **uf**.  
+- Identifica abas: `Ocorrências` e `Vítimas`.  
+- Normaliza colunas (`uf_nome`, `uf_sigla`, `tipo_crime`, `ano`, `mes`, `ocorrencias`, `vitimas`, `sexo_vitima`).  
+- Faz parsing de `Mês` (texto) → número (`janeiro → 1`).  
+- Aplica checks leves:
+  - UF válida
+  - Sem valores negativos
+- Cria tabelas:
+  - `sinesp.bronze.ufocorrencias`
+  - `sinesp.bronze.ufvitimas`
+
+---
+
+## 🧹 Padronização Aplicada
+- **Colunas em snake_case**.  
+- **Datas parseadas** para `ano` (INT), `mes` (INT), `year_month` (DATE).  
+- **Tipos numéricos coerentes** (`cod_ibge` = BIGINT, `vitimas/ocorrencias` = INT).  
+- **Metadados preservados** (`_ingestion_ts`, `_source_path`) para rastreabilidade.  
+
+---
+
+## ✅ Benefícios da Bronze
+- Mantém os **dados integrais** do SINESP (mesmo inconsistentes).  
+- Garante **reprodutibilidade** (manifesto + versionamento por hash).  
+- Simplifica a transição para Silver (onde serão aplicadas regras de qualidade mais rígidas).  
+- Permite auditoria: qualquer dado analisado pode ser rastreado até o **arquivo bruto**.
+
+---
 
 

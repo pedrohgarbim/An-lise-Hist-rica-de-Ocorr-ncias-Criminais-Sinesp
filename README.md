@@ -294,3 +294,82 @@ Dentro da pasta `notebooks/silver_transformations/` existem três notebooks prin
 - Facilita a criação de visões consolidadas na **camada Gold**.  
 
 ---
+
+# 🥇 Camada Gold – Projeto Sinesp
+
+A **camada Gold** é a etapa final do pipeline de dados, responsável por **enriquecer, consolidar e disponibilizar** os dados já tratados na Silver em um formato **otimizado para análises** e pronto para dashboards.  
+Aqui, garantimos que os dados estejam organizados em **visões regionais e nacionais**, simplificando a exploração e reduzindo a complexidade para os analistas.
+
+---
+
+## 🎯 Objetivo da Gold
+- Adicionar a **dimensão Região** (Norte, Nordeste, Centro-Oeste, Sudeste, Sul) às tabelas por UF.  
+- Criar **views por região** (UF e Municípios), otimizando consultas.  
+- Consolidar os dados para consumo direto em ferramentas analíticas como **Databricks SQL** e **Power BI**.  
+
+---
+
+## 📂 Estrutura dos Notebooks
+
+Dentro da pasta `notebooks/gold_enrichment/` existem dois tipos de notebooks principais:
+
+### 1. `regiao_nas_tabelas.ipynb`
+- **Fonte**:  
+  - `sinesp.silver.uf_vitimas`  
+  - `sinesp.silver.uf_ocorrencias`
+- **Transformações**:
+  - Mapeamento de cada UF para a sua respectiva **região** (ex.: `RS`, `SC`, `PR` → `SUL`).  
+  - Inclusão da coluna `regiao` nas tabelas.  
+  - Escrita em tabelas finais da Gold.
+- **Saídas**:  
+  - `sinesp.gold.uf_vitimas`  
+  - `sinesp.gold.uf_ocorrencias`
+
+👉 Permite análises comparativas por **macrorregião brasileira**.
+
+---
+
+### 2. `view_<regiao>.ipynb` (ex.: `view_sul.ipynb`, `view_nordeste.ipynb`)
+- **Fonte**:  
+  - `sinesp.gold.uf_vitimas`  
+  - `sinesp.gold.uf_ocorrencias`  
+  - `sinesp.silver.municipios_vitimas` (para nível municipal)
+- **Transformações**:
+  - Criação de **views SQL** filtrando os dados apenas da região desejada.  
+  - São geradas três views por região:
+    1. `view_<regiao>_uf_ocorrencias`  
+    2. `view_<regiao>_uf_vitimas`  
+    3. `view_<regiao>_municipios_vitimas`
+- **Exemplo de saída** (para a região Sul):
+  - `sinesp.gold.view_sul_uf_ocorrencias`  
+  - `sinesp.gold.view_sul_uf_vitimas`  
+  - `sinesp.gold.view_sul_municipios_vitimas`
+
+👉 Simplifica o consumo de dados por região sem necessidade de aplicar filtros adicionais.
+
+---
+
+## 📊 Tabelas Resultantes
+
+1. **`sinesp.gold.uf_vitimas`**  
+   - Campos principais: `uf_sigla`, `uf_nome`, `regiao`, `tipo_crime`, `sexo_vitima`, `ano`, `mes`, `vitimas`.
+
+2. **`sinesp.gold.uf_ocorrencias`**  
+   - Campos principais: `uf_sigla`, `uf_nome`, `regiao`, `tipo_crime`, `ano`, `mes`, `ocorrencias`.
+
+3. **`sinesp.gold.view_<regiao>_*`**  
+   - Views segmentadas por região (`Norte`, `Nordeste`, `Centro-Oeste`, `Sudeste`, `Sul`).  
+   - Facilita análises rápidas e dashboards focados em determinada região.
+
+---
+
+## ✅ Benefícios
+- Inclusão da dimensão **Região**, essencial para análises macro.  
+- Criação de **views por região**, reduzindo a complexidade em consultas SQL.  
+- **Padronização** das tabelas finais para dashboards interativos.  
+- Dados prontos para integração com ferramentas de **BI e Analytics**.  
+
+---
+
+📌 **Próxima etapa:** utilizar as tabelas e views da **Gold** para construir dashboards regionais no **Databricks SQL**, trazendo KPIs e comparativos de forma visual e acessível.  
+

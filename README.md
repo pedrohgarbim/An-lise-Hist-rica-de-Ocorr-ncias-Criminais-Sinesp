@@ -370,6 +370,76 @@ Dentro da pasta `notebooks/gold_enrichment/` existem dois tipos de notebooks pri
 - Dados prontos para integração com ferramentas de **BI e Analytics**.  
 
 ---
+# 📊 Dashboards Regionais 
 
-📌 **Próxima etapa:** utilizar as tabelas e views da **Gold** para construir dashboards regionais no **Databricks SQL**, trazendo KPIs e comparativos de forma visual e acessível.  
+Os **dashboards regionais** foram desenvolvidos em **Databricks SQL** e seguem a mesma lógica estrutural, mudando apenas o **foco geográfico** (Norte, Nordeste, Centro-Oeste, Sudeste e Sul).  
+
+Cada painel organiza os indicadores de segurança pública em **KPIs, comparativos e análises temporais**, permitindo uma visão **consolidada e interativa** da violência no Brasil.
+
+---
+
+## 🧩 Estrutura Comum dos Dashboards
+
+Todos os dashboards regionais seguem o mesmo padrão:
+<img width="1600" height="673" alt="image" src="https://github.com/user-attachments/assets/eac685d6-830f-4979-bfce-c3f48237184d" />
+
+### 🔹 KPIs Principais
+- **Total de vítimas** → mostra o volume agregado de vítimas da região.  
+  👉 *Insight*: avalia a magnitude da violência ao longo dos anos.  
+- **Total de ocorrências** → contabiliza os registros de crimes.  
+  👉 *Insight*: mede o nível de atividade criminal (independente do número de vítimas).  
+- **Município com mais vítimas (Top 1)** → identifica a cidade mais crítica da região.  
+  👉 *Insight*: direciona políticas públicas locais.  
+- **Ano mais violento** → mostra o ano com maior número de vítimas.  
+  👉 *Insight*: ajuda a analisar tendências históricas de aumento/redução da violência.  
+
+---
+<img width="1600" height="469" alt="image" src="https://github.com/user-attachments/assets/8a9ef854-80f8-433c-bd2a-0f5ec1584893" />
+<img width="1600" height="469" alt="image" src="https://github.com/user-attachments/assets/48c92e98-2c6b-44e1-a4d1-b13b5026bfd9" />
+### 🔹 Análises por UF
+- **Evolução mensal de vítimas por UF** (linha temporal).  
+  👉 *Insight*: permite comparar padrões entre estados da mesma região.  
+- **Ranking de vítimas por UF** (barras).  
+  👉 *Insight*: evidencia quais estados concentram maior número de vítimas.  
+
+---
+<img width="1600" height="452" alt="image" src="https://github.com/user-attachments/assets/76f898a8-7b30-4186-89a6-a2b5bd260dec" />
+<img width="1600" height="458" alt="image" src="https://github.com/user-attachments/assets/d1802c9f-2d4e-4633-a98b-9daf21cdc90a" />
+
+### 🔹 Análises por Município
+- **Top 15 municípios com mais vítimas** (barras).  
+  👉 *Insight*: identifica focos locais de violência urbana e rural.  
+- **Evolução mensal dos 15 municípios mais violentos** (linha temporal).  
+  👉 *Insight*: monitora mudanças no comportamento criminal de cidades críticas.  
+
+---
+
+### 🔹 Temas Específicos
+- **Ranking de tipos de crime por ocorrências** (barras).  
+  👉 *Insight*: mostra os crimes mais frequentes (ex.: furto de veículo, homicídio, estupro).  
+- **Distribuição de vítimas por sexo** (pizza).  
+  👉 *Insight*: identifica o perfil das vítimas (masculino, feminino, sexo não informado).  
+- **Tabela: Tipo de crime × UF por vítimas**.  
+  👉 *Insight*: compara a gravidade de crimes específicos entre estados da região.  
+- **Tabela: Vítimas por UF e sexo**.  
+  👉 *Insight*: cruza perfil da vítima com localização.  
+
+---
+<img width="1600" height="450" alt="image" src="https://github.com/user-attachments/assets/1568e219-9a62-4bde-abde-1ac8caf46b36" />
+<img width="1600" height="402" alt="image" src="https://github.com/user-attachments/assets/efdb067a-3d1f-41d3-9d0c-18635aeefc74" />
+
+## ✅ Benefícios dos Dashboards
+- Oferecem **comparação regional** (Norte, Nordeste, Centro-Oeste, Sudeste e Sul).  
+- Permitem identificar **hotspots de violência** em municípios e estados.  
+- Auxiliam no **planejamento de políticas públicas** de segurança.  
+- Viabilizam análises detalhadas por **tipo de crime** e **perfil de vítimas**.  
+- Servem de base para **relatórios oficiais e estudos acadêmicos**.  
+
+---
+
+📌 **Resumo**:  
+Os dashboards regionais seguem a mesma arquitetura, mudando apenas a região analisada. Eles possibilitam insights estratégicos sobre **quando, onde e como a violência acontece**, apoiando decisões de gestores e pesquisadores.
+
+
+
 

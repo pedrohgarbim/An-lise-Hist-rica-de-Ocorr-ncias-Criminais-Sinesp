@@ -219,4 +219,78 @@ Arquivo: **Ingestao_dos_DadosUF**
 
 ---
 
+# 🥈 Camada Silver – Projeto Sinesp
 
+A **camada Silver** é responsável por transformar os dados brutos da Bronze em um formato **padronizado, confiável e pronto para análises**.  
+Enquanto a Bronze preserva os dados praticamente crus, a Silver aplica **ajustes, validações e padronizações** que garantem consistência e eliminam ruídos.
+
+---
+
+## 🔄 Objetivo da Silver
+- Corrigir e validar campos como **ano, mês e UF**.  
+- Padronizar nomes de colunas e tipos de dados.  
+- Tratar valores nulos ou inconsistentes.  
+- Preparar os dados para análises na **camada Gold** e para dashboards em **Databricks SQL**.  
+
+---
+
+## 📂 Estrutura dos Notebooks
+
+Dentro da pasta `notebooks/silver_transformations/` existem três notebooks principais:
+
+### 1. `transformaçãomunicipios.ipynb`
+- **Fonte**: `sinesp.bronze.municipios_raw_row`  
+- **Transformações**:
+  - Derivação de `ano` e `mes` a partir de `mes_ano`.
+  - Padronização de colunas (`cod_ibge`, `municipio`, `uf_sigla`, `regiao`, `vitimas`).
+  - Validação de registros com ano/mês válidos.
+- **Saída**: `sinesp.silver.municipios_vitimas`
+
+👉 Permite análises detalhadas por **município**.
+
+---
+
+### 2. `transformaçãoocorrencias.ipynb`
+- **Fonte**: `sinesp.bronze.ufocorrencias`  
+- **Transformações**:
+  - Padronização de colunas (`uf_nome`, `uf_sigla`, `tipo_crime`, `ano`, `mes`, `ocorrencias`).
+  - Conversão de colunas para tipos corretos.
+  - Filtro de registros inválidos.
+- **Saída**: `sinesp.silver.uf_ocorrencias`
+
+👉 Permite acompanhar o volume de **ocorrências criminais por UF**.
+
+---
+
+### 3. `transformaçãovitima.ipynb`
+- **Fonte**: `sinesp.bronze.ufvitimas`  
+- **Transformações**:
+  - Padronização de colunas (`uf_nome`, `uf_sigla`, `tipo_crime`, `sexo_vitima`, `ano`, `mes`, `vitimas`).
+  - Normalização de valores de sexo (`Feminino`, `Masculino`, `Sexo NI`).
+  - Conversão para tipos consistentes.
+- **Saída**: `sinesp.silver.uf_vitimas`
+
+👉 Possibilita análises sobre o **perfil das vítimas por UF e sexo**.
+
+---
+
+## 📊 Tabelas Resultantes
+
+1. **`sinesp.silver.municipios_vitimas`**  
+   - Campos principais: `cod_ibge`, `municipio`, `uf_sigla`, `regiao`, `ano`, `mes`, `vitimas`.
+
+2. **`sinesp.silver.uf_ocorrencias`**  
+   - Campos principais: `uf_sigla`, `uf_nome`, `tipo_crime`, `ano`, `mes`, `ocorrencias`.
+
+3. **`sinesp.silver.uf_vitimas`**  
+   - Campos principais: `uf_sigla`, `uf_nome`, `tipo_crime`, `sexo_vitima`, `ano`, `mes`, `vitimas`.
+
+---
+
+## ✅ Benefícios
+- Dados **limpos e padronizados**.  
+- **Consistência** entre diferentes fontes (municípios e UFs).  
+- Base pronta para **dashboards interativos** e relatórios.  
+- Facilita a criação de visões consolidadas na **camada Gold**.  
+
+---

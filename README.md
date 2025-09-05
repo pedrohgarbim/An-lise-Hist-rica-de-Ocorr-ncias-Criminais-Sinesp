@@ -144,7 +144,7 @@ Os **arquivos XLSX brutos** representam a **camada de entrada (Landing → Bronz
 Sem essa base estruturada, não seria possível construir as análises regionais, comparativos e indicadores derivados que alimentam o projeto.
 
 
-# 🥉Camada Bronze (Ingestão & Padronização)
+# 🥉Camada Bronze - Ingestão & Padronização
 
 A **Camada Bronze** do projeto SINESP é responsável por **ingerir os arquivos brutos (XLSX)**, baixados do portal [dados.gov.br](https://dados.gov.br/dados/conjuntos-dados/sistema-nacional-de-estatisticas-de-seguranca-publica), e transformá-los em **tabelas Delta padronizadas**, prontas para uso nas próximas camadas (**Silver** e **Gold**).
 
@@ -219,7 +219,7 @@ Arquivo: **Ingestao_dos_DadosUF**
 
 ---
 
-# 🥈 Camada Silver – Projeto Sinesp
+# 🥈 Camada Silver – Transformações 
 
 A **camada Silver** é responsável por transformar os dados brutos da Bronze em um formato **padronizado, confiável e pronto para análises**.  
 Enquanto a Bronze preserva os dados praticamente crus, a Silver aplica **ajustes, validações e padronizações** que garantem consistência e eliminam ruídos.
@@ -295,7 +295,7 @@ Dentro da pasta `notebooks/silver_transformations/` existem três notebooks prin
 
 ---
 
-# 🥇 Camada Gold – Projeto Sinesp
+# 🥇 Camada Gold - Views
 
 A **camada Gold** é a etapa final do pipeline de dados, responsável por **enriquecer, consolidar e disponibilizar** os dados já tratados na Silver em um formato **otimizado para análises** e pronto para dashboards.  
 Aqui, garantimos que os dados estejam organizados em **visões regionais e nacionais**, simplificando a exploração e reduzindo a complexidade para os analistas.
